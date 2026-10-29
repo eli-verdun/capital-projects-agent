@@ -1,0 +1,48 @@
+evals/evaluators.py
+  s_490ffada1e6645::t_5afaae53244967 18,20,25
+src/project_advisor/graph.py
+  s_490ffada1e6645::t_5afaae53244967 21,73,76,83,172
+src/project_advisor/retrieval.py
+  s_490ffada1e6645::t_7ab241d5cf0319 1-7,11-13,17,23-28,30-40,56-82,84,86,90
+.env.example
+  s_490ffada1e6645::t_ffbdb0e6940e89 18-22
+scripts/setup_insights.py
+  s_490ffada1e6645::t_c6bc0c9a61702e 65,238-243
+src/project_advisor/llm.py
+  s_490ffada1e6645::t_4a4c505a4fa614 1-16,25-48,53-55,60
+src/project_advisor/guardrails.py
+  s_490ffada1e6645::t_5afaae53244967 19,25-27
+.github/workflows/verify-credentials.yml
+  s_490ffada1e6645::t_ffbdb0e6940e89 17
+scripts/setup_online_evals.py
+  s_490ffada1e6645::t_c6bc0c9a61702e 37-38,61-63,74-97,212
+.github/workflows/evals-on-pr.yml
+  s_490ffada1e6645::t_ffbdb0e6940e89 54-57
+README.md
+  s_490ffada1e6645::t_ffbdb0e6940e89 60,132-136
+scripts/verify_credentials.py
+  s_490ffada1e6645::t_ffbdb0e6940e89 20-22,46,50-52
+evals/run_experiment.py
+  s_490ffada1e6645::t_5afaae53244967 128-129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "616c2ecb242452f0d2489e6331a3355d52542159",
+  "prompts": {},
+  "humans": {
+    "h_581153be4e874b": {
+      "author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  },
+  "sessions": {
+    "s_490ffada1e6645": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab485ef0-f2a6-4f78-93a1-b4638ab340be",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  }
+}
