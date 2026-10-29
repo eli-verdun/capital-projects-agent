@@ -22,7 +22,9 @@ flowchart LR
 
 Enrichment finds package IDs (or a project name, or a follow-up reference). It adds the
 fixed snapshot context. It sends package questions to three specialists **in parallel**.
-Each specialist has a small tool set. Their outputs join before synthesis. Generic
+The records and controls specialists run fixed per-package lookups without a model call; the
+engineering agent picks from a small tool set. Their tool results, not prose reports, join
+before synthesis. Generic
 questions take a direct path. Unknown IDs get a clarification. A source failure stays
 visible as missing evidence. The chat shows only the final answer. LangSmith shows the
 full agent tree.

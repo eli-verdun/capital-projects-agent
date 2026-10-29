@@ -2,11 +2,15 @@
 from langchain.agents.middleware import AgentMiddleware
 from langchain_core.messages import ToolMessage
 
+def lookup_error(exc,tool_call_id):
+    """Build the recoverable error result for a failed lookup."""
+    # ValueError messages are our domain lookup hints, not provider credentials.
+    text=str(exc) if isinstance(exc,ValueError) else 'The source is temporarily unavailable.'
+    return ToolMessage(content='Lookup failed: '+text+' Do not invent a record. Ask for a valid ID or explain missing evidence.',tool_call_id=tool_call_id,status='error')
+
 class LookupErrorMiddleware(AgentMiddleware):
     def _error(self,request,exc):
-        # ValueError messages are our domain lookup hints, not provider credentials.
-        text=str(exc) if isinstance(exc,ValueError) else 'The source is temporarily unavailable.'
-        return ToolMessage(content='Lookup failed: '+text+' Do not invent a record. Ask for a valid ID or explain missing evidence.',tool_call_id=request.tool_call['id'],status='error')
+        return lookup_error(exc,request.tool_call['id'])
 
     def wrap_tool_call(self,request,handler):
         try:return handler(request)
