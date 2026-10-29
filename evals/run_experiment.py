@@ -198,7 +198,9 @@ def _print_experiment_link(dataset: str, experiment_name: str) -> None:
         return
 
     workspace_id = os.getenv("LANGSMITH_WORKSPACE_ID", "").strip()
-    base = "https://smith.langchain.com"
+    from project_advisor.endpoints import ui_url
+
+    base = ui_url()
     url = f"{base}/o/{workspace_id}/datasets/{ds.id}/compare" if workspace_id else f"{base}/datasets/{ds.id}/compare"
 
     # Deep-link to THIS experiment via ?selectedSessions=<session_id> so the link

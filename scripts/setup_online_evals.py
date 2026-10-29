@@ -55,7 +55,9 @@ from langsmith import Client
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from project_advisor.agent_address import ENVIRONMENTS, agent_environment, environment_session  # noqa: E402
 
-_API = "https://api.smith.langchain.com/api/v1"
+from project_advisor.endpoints import rest_api  # noqa: E402
+
+_API = rest_api()
 JUDGE_MODEL = os.getenv("EVAL_JUDGE_MODEL", "gpt-5.4-mini")
 
 # Feedback keys this demo used to publish. Rules with these names are deleted on setup so

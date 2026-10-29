@@ -63,7 +63,9 @@ from langsmith import Client
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from project_advisor.agent_address import ENVIRONMENTS, agent_environment, environment_session  # noqa: E402
 
-_API = "https://api.smith.langchain.com/api/v1"
+from project_advisor.endpoints import rest_api  # noqa: E402
+
+_API = rest_api()
 PROJECT_NAME = ""  # set in main() from the agent environment
 
 # The load generator produces multi-turn THREADS. For threaded projects the

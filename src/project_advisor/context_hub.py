@@ -28,7 +28,9 @@ from langsmith.schemas import FileEntry
 
 from project_advisor.context import CONTEXT_HUB_REPO
 
-_API = "https://api.smith.langchain.com/api/v1"
+from project_advisor.endpoints import rest_api
+
+_API = rest_api()
 
 # Seed prompts live here as markdown (bootstrap data, never read at runtime).
 _SEED_DIR = Path(__file__).resolve().parent.parent.parent / "context_hub_seed"

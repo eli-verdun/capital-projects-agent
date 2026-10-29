@@ -94,6 +94,12 @@ LANGSMITH_AGENT_ENVIRONMENT=production   # local | development | staging | produ
 - Experiments still write to their own experiment session.
 - Attach the four datasets to the agent once in the UI. There is no public API for this yet.
 
+**Regions.** For an APAC or EU workspace, set `LANGSMITH_ENDPOINT` (for example
+`https://apac.api.smith.langchain.com`). The REST calls, experiment links and LLM Gateway
+host follow it (`endpoints.py`). A `LANGSMITH_ENDPOINT` exported in your shell overrides
+`.env`, so unset it there. The regional gateway needs a gateway key from that region and
+an `OPENAI_API_KEY` provider secret in that workspace.
+
 ## Intentional demo defects
 
 - Context Hub `AGENTS.md` tells the agent to answer engineering figures from memory and to

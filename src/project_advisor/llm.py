@@ -18,14 +18,9 @@ from __future__ import annotations
 
 import os
 
-# Official LangSmith LLM Gateway host. Override with LLM_GATEWAY_BASE_URL only for a
-# regional instance (eu./apac.) or a self-hosted gateway - this is a trusted,
-# developer-controlled value from .env, not untrusted request input.
-_DEFAULT_GATEWAY_BASE_URL = "https://gateway.smith.langchain.com"
-
-
-def _gateway_base_url() -> str:
-    return os.getenv("LLM_GATEWAY_BASE_URL", _DEFAULT_GATEWAY_BASE_URL).rstrip("/")
+# The gateway host follows the LANGSMITH_ENDPOINT region (apac. / eu. / US); see
+# endpoints.py. LLM_GATEWAY_BASE_URL overrides it for a self-hosted gateway.
+from project_advisor.endpoints import gateway_url as _gateway_base_url
 
 
 def openai_gateway_kwargs() -> dict[str, str]:

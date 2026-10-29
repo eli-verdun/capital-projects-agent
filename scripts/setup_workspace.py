@@ -64,7 +64,9 @@ from project_advisor.governance import (  # noqa: E402
     REVIEW_QUEUE_NAME,
 )
 
-_API = "https://api.smith.langchain.com/api/v1"
+from project_advisor.endpoints import rest_api  # noqa: E402
+
+_API = rest_api()
 # The committed datasets (see evals/dataset_snapshot.py).
 DATASET_NAMES = [
     "capital-projects-golden",
