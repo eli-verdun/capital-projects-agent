@@ -1,0 +1,222 @@
+src/project_advisor/guardrails.py
+  s_490ffada1e6645::t_33416ccc73cd66 1-198
+  s_490ffada1e6645::t_0bbf46e77a8027 199-228
+context_hub_seed/skills/spares-and-warranty/SKILL.md
+  s_490ffada1e6645::t_b5298784600ff9 1-8
+DOMAIN_MAP.md
+  s_490ffada1e6645::t_793b9ffdbbd674 1-31
+README.md
+  s_490ffada1e6645::t_9d84291239c52c 3-154
+  s_490ffada1e6645::t_09cb0049391fcd 1-2
+scripts/setup_insights.py
+  s_490ffada1e6645::t_656e69164f52fa 23-32,84,89
+  s_490ffada1e6645::t_3291853976cfee 1-6,62-74,85,93-297,299
+  s_490ffada1e6645::t_d7208a7e8915ca 7-22,33-61,75-83,86-88,90-92,298,300-303
+scripts/setup_workspace.py
+  s_490ffada1e6645::t_656e69164f52fa 3-282
+  s_490ffada1e6645::t_63832b697fea88 1-2,283-288
+.env.example
+  s_490ffada1e6645::t_202065f0de9135 6-13
+  s_490ffada1e6645::t_296d478e6f75ba 1-5,14-17
+src/project_advisor/kb/deviation_triage_method.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+context_hub_seed/skills/maintenance-and-data-review/SKILL.md
+  s_490ffada1e6645::t_b5298784600ff9 1-8
+src/project_advisor/kb/spares_catalog.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+evals/evaluators.py
+  s_490ffada1e6645::t_639066848112c8 1-534
+  s_490ffada1e6645::t_df6454d6aa3a5d 535-550
+src/project_advisor/kb/deviation_reference.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+evals/run_experiment.py
+  s_490ffada1e6645::t_639066848112c8 9-115
+  s_490ffada1e6645::t_cec9c4dd144226 1-8,116-406
+src/project_advisor/kb/safety_and_approvals.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+frontend/src/App.tsx
+  s_490ffada1e6645::t_262de1138a4f64 19
+  s_490ffada1e6645::t_beff0fd8390804 1-18,20-55
+frontend/src/components/ProjectIcon.tsx
+  s_490ffada1e6645::t_262de1138a4f64 16-20
+  s_490ffada1e6645::t_07ffebbdb3b133 1-15,21-23
+frontend/src/components/Thread.tsx
+  s_490ffada1e6645::t_841b88e664bdad 112
+  s_490ffada1e6645::t_262de1138a4f64 17-62
+  s_490ffada1e6645::t_214a1d155d8e49 1-16,63-111,113-200
+.github/workflows/verify-credentials.yml
+  s_490ffada1e6645::t_202065f0de9135 14-15
+  s_490ffada1e6645::t_fe90707d2f5f5a 1-13,16-40
+pyproject.toml
+  s_490ffada1e6645::t_7925ff80ee453f 10
+  s_490ffada1e6645::t_e710da68bd8dd6 1-9,11-31
+src/project_advisor/kb/resources_workflow.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+evals/dataset_guardrail.json
+  s_490ffada1e6645::t_7feb7e74e76f95 3-409
+  s_490ffada1e6645::t_15d75982e804ec 1-2,410-424
+evals/dataset_pii.json
+  s_490ffada1e6645::t_7feb7e74e76f95 3-282
+  s_490ffada1e6645::t_096ae8ddf637c1 1-2,283-294
+evals/dataset_golden.json
+  s_490ffada1e6645::t_7feb7e74e76f95 3-356
+  s_490ffada1e6645::t_cbabda1b8bed1c 1-2,357-366
+src/project_advisor/kb/data_privacy.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/kb/missing_data_and_scope.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/kb/chemicals_and_hydrogen_workflow.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+evals/dataset_hallucinations.json
+  s_490ffada1e6645::t_7feb7e74e76f95 3-330
+  s_490ffada1e6645::t_13714c46c077ca 1-2,331-342
+src/project_advisor/kb/warranty_terms.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+scripts/load_generation.py
+  s_490ffada1e6645::t_91257df431feee 1-441
+  s_490ffada1e6645::t_7e76b96280378e 442-445
+src/project_advisor/kb/lng_workflow.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/kb/project_snapshot.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/redaction.py
+  s_490ffada1e6645::t_25170a7ae117a1 1-43
+  s_490ffada1e6645::t_e86b435be642b2 44-45
+src/project_advisor/kb/maintenance_intervals.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+context_hub_seed/skills/deviation-triage/SKILL.md
+  s_490ffada1e6645::t_b5298784600ff9 1-8
+scripts/verify_local.py
+  s_490ffada1e6645::t_12b1175965df5c 3-158
+  s_490ffada1e6645::t_456b9faa5b5c13 1-2
+  s_490ffada1e6645::t_19f7464f193e4b 159
+src/project_advisor/context_hub.py
+  s_490ffada1e6645::t_5608baf2ee6b90 90
+  s_490ffada1e6645::t_c42a85303ff2c1 1-89,91-99
+frontend/index.html
+  s_490ffada1e6645::t_262de1138a4f64 7
+  s_490ffada1e6645::t_027d2275aaedc4 1-6,8-13
+context_hub_seed/AGENTS.md
+  s_490ffada1e6645::t_b5298784600ff9 2-13
+  s_490ffada1e6645::t_896a832ecb2760 1
+scripts/verify_credentials.py
+  s_490ffada1e6645::t_f5ed1a1097a5b5 25-74
+  s_490ffada1e6645::t_60991be2fe72ec 22-24
+  s_490ffada1e6645::t_36c88d4865e06a 75
+  s_490ffada1e6645::t_68ef408d6d1b32 1-21
+src/project_advisor/kb/engineering_handoff.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/graph.py
+  s_490ffada1e6645::t_261d4620cc1da0 1-245
+  s_490ffada1e6645::t_b79fd41dab2267 246-251
+src/project_advisor/kb/spares_lead_times.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/governance.py
+  s_490ffada1e6645::t_5608baf2ee6b90 1
+  s_490ffada1e6645::t_61f201e4fb9c62 23
+  s_490ffada1e6645::t_e2cf40b09f0b04 2-22,24-31
+scripts/setup_online_evals.py
+  s_490ffada1e6645::t_163fc9c7e0ca4b 1-191
+  s_490ffada1e6645::t_a7e71ab40b5ebb 192-203
+scripts/verify_agent_smoke.py
+  s_490ffada1e6645::t_119a188454e2d4 20-48
+  s_490ffada1e6645::t_db66f0ef702b46 17-19
+  s_490ffada1e6645::t_aff50bb644c92f 49-51
+  s_490ffada1e6645::t_c9f64c373766f6 1-16
+frontend/src/lib/chatApi.ts
+  s_490ffada1e6645::t_262de1138a4f64 103
+  s_490ffada1e6645::t_adc30bd0c6bf0e 1-102,104-113
+context_hub_seed/guardrail.md
+  s_490ffada1e6645::t_b5298784600ff9 2
+  s_490ffada1e6645::t_73d94428db3119 1
+src/project_advisor/kb/coupling_and_alignment.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+frontend/src/RuntimeProvider.tsx
+  s_490ffada1e6645::t_262de1138a4f64 110
+  s_490ffada1e6645::t_dc71c08e2dcdd2 1-109,111-183
+.github/workflows/evals-on-pr.yml
+  s_490ffada1e6645::t_202065f0de9135 49-52
+  s_490ffada1e6645::t_5dbf4af5b9b472 1-48,53-150
+src/project_advisor/kb/quality_records.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+src/project_advisor/kb/hydrotest_pressure_calculation.md
+  s_490ffada1e6645::t_61f201e4fb9c62 1-5
+.github/instructions/corridor.instructions.md
+  s_490ffada1e6645::t_cf630f5cac90d9 1-7
+.gitignore
+  s_490ffada1e6645::t_46fbf648a324f4 1-34
+.python-version
+  s_490ffada1e6645::t_a06170122f271c 1
+evals/dataset_snapshot.py
+  s_490ffada1e6645::t_120b3c745db579 1-190
+frontend/.gitignore
+  s_490ffada1e6645::t_73eb65aa049205 1-5
+frontend/package-lock.json
+  s_490ffada1e6645::t_52a3f7d29826bb 1-9771
+frontend/package.json
+  s_490ffada1e6645::t_ea44b5bc68c112 1-30
+frontend/postcss.config.js
+  s_490ffada1e6645::t_1a8e3a8a36229b 1-5
+frontend/src/components/ApiKeyGate.tsx
+  s_490ffada1e6645::t_6a0bdcf54805ab 1-87
+frontend/src/components/RequestError.tsx
+  s_490ffada1e6645::t_6bff34b5d8de25 1-17
+frontend/src/index.css
+  s_490ffada1e6645::t_dc991d7f822cb0 1-145
+frontend/src/lib/auth.ts
+  s_490ffada1e6645::t_3cdf4c4ab5e29a 1-54
+frontend/src/main.tsx
+  s_490ffada1e6645::t_ce0fa293e48b9d 1-10
+frontend/src/vite-env.d.ts
+  s_490ffada1e6645::t_b703511e5c8a1d 1
+frontend/tsconfig.json
+  s_490ffada1e6645::t_59467e55fdc496 1-22
+frontend/vite.config.ts
+  s_490ffada1e6645::t_16ae11c345af41 1-24
+langgraph.json
+  s_490ffada1e6645::t_b949e1a468c974 1-12
+pyrightconfig.json
+  s_490ffada1e6645::t_2d16cdfe26c540 1-8
+scripts/setup_context_hub.py
+  s_490ffada1e6645::t_63024186dd0eb4 1-42
+scripts/teardown_context_hub.py
+  s_490ffada1e6645::t_3ec4b91a6d5464 1-94
+src/project_advisor/app.py
+  s_490ffada1e6645::t_54eb55d70413cc 1-138
+src/project_advisor/context.py
+  s_490ffada1e6645::t_d8063fcf9ad005 1-55
+src/project_advisor/llm.py
+  s_490ffada1e6645::t_ffa0f128c88962 1-44
+src/project_advisor/retrieval.py
+  s_490ffada1e6645::t_712157a23acf5a 1-47
+src/project_advisor/state.py
+  s_490ffada1e6645::t_9004fd89dbc0ee 1
+src/project_advisor/tool_errors.py
+  s_490ffada1e6645::t_7870d9e9b9a057 1-17
+uv.lock
+  s_490ffada1e6645::t_a96051db4b6a2c 1-2812
+scripts/setup_agent.py
+  s_490ffada1e6645::t_132b49767c92b3 1-61
+src/project_advisor/agent_address.py
+  s_490ffada1e6645::t_1438a0a8a40421 1-88
+src/project_advisor/mock_data.py
+  s_490ffada1e6645::t_36097dd171120b 1-426
+src/project_advisor/tools.py
+  s_490ffada1e6645::t_845c354053fa50 1-120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2230115ace8256d7e3294409aeabb99ad5fe1f97",
+  "prompts": {},
+  "sessions": {
+    "s_490ffada1e6645": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab485ef0-f2a6-4f78-93a1-b4638ab340be",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  }
+}
