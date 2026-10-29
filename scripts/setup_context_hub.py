@@ -4,8 +4,8 @@ Seeds the LangSmith Context Hub with:
   1. The agent's ``AGENTS.md`` (the buggy, hallucination-prone system prompt) -
      the runtime source of truth that ``project_advisor.context.get_prompt()`` pulls.
      The setup promotes the initial prompt commit to the ``production`` tag.
-  2. The intentionally-WEAK ``guardrail.md`` and the skill library (one skill is
-     intentionally WRONG). All three fixable surfaces are Context Hub files.
+  2. The ``guardrail.md`` classifier prompt and the skill library (one skill is
+     intentionally WRONG). All fixable surfaces are Context Hub files.
 
 Run once after configuring ``.env``:
 
@@ -35,7 +35,7 @@ def main() -> None:
 
     print("\nSetup complete.")
     print(f"  Context Hub agent repo: {CONTEXT_HUB_REPO} (AGENTS.md + guardrail.md + /skills)")
-    print("  Three demo fix-surfaces, all Context Hub files: AGENTS.md, a buggy skill, guardrail.md.")
+    print("  Two demo fix-surfaces, both Context Hub files: AGENTS.md and a buggy skill.")
 
 
 if __name__ == "__main__":

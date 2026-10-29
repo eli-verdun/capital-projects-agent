@@ -3,7 +3,7 @@
 `seed_agent_repo()` pushes ALL three fixable surfaces into ONE Context Hub agent
 repo and promotes it to `production`:
   - `AGENTS.md`              - the system prompt
-  - `guardrail.md`           - the intentionally-WEAK guardrail classifier prompt
+  - `guardrail.md`           - the guardrail classifier prompt
   - `skills/<name>/SKILL.md`  - the skills (one intentionally WRONG)
 
 The prompt content is NOT embedded in this code - it lives as markdown files under

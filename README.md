@@ -105,15 +105,13 @@ an `OPENAI_API_KEY` provider secret in that workspace.
 - Context Hub `AGENTS.md` tells the agent to answer engineering figures from memory and to
   read back sensitive fields.
 - The `deviation-triage` skill teaches a wrong low-load shortcut for method questions.
-- `guardrail.md` blocks injection but lets approval, sign-off and equipment requests through.
 
 These are editable demo surfaces, not real engineering guidance. The tools are read-only
 and mask sensitive fields. The classifier fails closed on runtime errors. To update a
 prompt, edit it in Context Hub and promote `production`; it goes live in about 15 seconds.
 
 **Expected seeded state.** The golden gate targets the fixed prompts, so it fails until
-you fix the three surfaces. Guardrail accuracy is near 0.50 (measured 0.55 on the first
-run). The thresholds come from the source demo. They are not calibrated for this domain
+you fix both surfaces. The thresholds come from the source demo. They are not calibrated for this domain
 or graph.
 
 ## Setup and run

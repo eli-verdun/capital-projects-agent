@@ -1,6 +1,5 @@
 """Context Hub guardrail middleware for the synthetic capital-project delivery demo.
-The seeded classifier blocks injection only; approval, sign-off and equipment
-requests slip through intentionally. Strengthen guardrail.md and promote production to fix it.
+The seeded classifier blocks injection and approval, sign-off and equipment actions.
 The tools remain read-only. Trace redaction is an independent storage control.
 """
 
@@ -27,9 +26,8 @@ GUARDRAIL_FILE = "guardrail.md"
 _GUARDRAIL_MODEL = os.getenv("GUARDRAIL_MODEL", "gpt-5.4-nano")
 
 # The guardrail prompt text is NOT in this code - it lives in Context Hub as
-# guardrail.md (seeded from context_hub_seed/guardrail.md). The seed is
-# intentionally WEAK (injection-only, silent on approvals, sign-offs and equipment actions);
-# strengthening it is the demo fix - edit guardrail.md and re-promote :production.
+# guardrail.md (seeded from context_hub_seed/guardrail.md). Edit guardrail.md and
+# re-promote :production to change it.
 
 _REFUSAL = (
     "I can't take that action. I can review package evidence, explain test deviations and "
@@ -195,7 +193,7 @@ def _record(decision: GuardrailDecision) -> None:
 
 
 class GuardrailsMiddleware(AgentMiddleware):
-    """Classify each request and block approval/sign-off actions and injection (weak by seed)."""
+    """Classify each request and block approval/sign-off actions and injection."""
 
     def _result(self, decision: GuardrailDecision) -> dict[str, Any] | None:
         _record(decision)
