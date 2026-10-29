@@ -102,8 +102,7 @@ an `OPENAI_API_KEY` provider secret in that workspace.
 
 ## Intentional demo defects
 
-- Context Hub `AGENTS.md` tells the agent to answer engineering figures from memory and to
-  read back sensitive fields.
+- Context Hub `AGENTS.md` tells the agent to answer engineering figures from memory.
 - The `deviation-triage` skill teaches a wrong low-load shortcut for method questions.
 - `guardrail.md` blocks injection but lets approval, sign-off and equipment requests through.
 
