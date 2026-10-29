@@ -1,0 +1,40 @@
+README.md
+  s_490ffada1e6645::t_d581deaf0415b3 97-102
+.env.example
+  s_490ffada1e6645::t_d581deaf0415b3 6-9
+src/project_advisor/context_hub.py
+  s_490ffada1e6645::t_d8f5b22420c6da 31-33
+src/project_advisor/endpoints.py
+  s_490ffada1e6645::t_010bfe92dd84d4 1-59
+scripts/setup_workspace.py
+  s_490ffada1e6645::t_d8f5b22420c6da 67-69
+scripts/setup_insights.py
+  s_490ffada1e6645::t_d8f5b22420c6da 66-68
+src/project_advisor/llm.py
+  s_490ffada1e6645::t_d8f5b22420c6da 21-23
+scripts/setup_online_evals.py
+  s_490ffada1e6645::t_d8f5b22420c6da 58-60
+evals/run_experiment.py
+  s_490ffada1e6645::t_d8f5b22420c6da 201-203
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "79aaba53c8ee360af49d29730a4d8e59a482eb63",
+  "prompts": {},
+  "humans": {
+    "h_581153be4e874b": {
+      "author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  },
+  "sessions": {
+    "s_490ffada1e6645": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab485ef0-f2a6-4f78-93a1-b4638ab340be",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  }
+}
