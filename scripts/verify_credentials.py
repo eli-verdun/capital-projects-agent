@@ -17,8 +17,9 @@ load_dotenv(ROOT/'.env',override=False)
 from langsmith import Client
 from langsmith.anonymizer import create_anonymizer
 from langsmith.utils import LangSmithNotFoundError
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from project_advisor.llm import openai_gateway_kwargs
+from langchain_openai import ChatOpenAI
+from project_advisor.llm import agent_model, guardrail_model, judge_model, openai_gateway_kwargs
+from project_advisor.retrieval import retrieve
 from project_advisor.redaction import REDACTION_RULES
 from project_advisor.context import CONTEXT_HUB_REPO
 from project_advisor.governance import APPLICATION_NAME
@@ -42,14 +43,13 @@ def main():
         ds=client.read_dataset(dataset_name=f'capital-projects-{alias}')
         assert len(list(client.list_examples(dataset_id=ds.id)))==count,f'Dataset count mismatch: {alias}'
     print('PASS: production Context Hub and all four datasets')
-    for name,default in [('AGENT_MODEL','gpt-5.4'),('GUARDRAIL_MODEL','gpt-5.4-nano'),('EVAL_JUDGE_MODEL','gpt-5.4-mini')]:
-        model=os.getenv(name,default)
+    for name,model in [('AGENT_MODEL',agent_model()),('GUARDRAIL_MODEL',guardrail_model()),('EVAL_JUDGE_MODEL',judge_model())]:
         response=ChatOpenAI(model=model,timeout=60,max_retries=1,**openai_gateway_kwargs()).invoke('Reply with OK only.')
         assert response.content,f'Empty response for {name}'
         print(f'PASS: gateway credential for {name} ({model})')
-    vector=OpenAIEmbeddings(model='text-embedding-3-small',**openai_gateway_kwargs()).embed_query('Synthetic capital project test')
-    assert len(vector)>0
-    print('PASS: gateway embeddings')
+    hits=retrieve('hydrostatic test pressure stress ratio',k=2)
+    assert hits and hits[0].metadata['source']=='hydrotest_pressure_calculation.md','Local KB retrieval returned the wrong document'
+    print('PASS: local KB retrieval (no embedding provider needed)')
     run_id=uuid.uuid4();now=datetime.now(timezone.utc)
     sentinel='900-55-0142'
     # Address the run to the agent environment, the same way the app traces.

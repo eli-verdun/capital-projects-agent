@@ -18,7 +18,7 @@ from langsmith.utils import LangSmithNotFoundError
 
 from project_advisor.context import CONTEXT_HUB_REPO, CONTEXT_HUB_VERSION
 from project_advisor.guardrails import GuardrailsMiddleware
-from project_advisor.llm import openai_gateway_kwargs
+from project_advisor.llm import agent_model, openai_gateway_kwargs
 from project_advisor.redaction import make_redacting_tracer
 from project_advisor.tools import TOOLS
 from project_advisor.tool_errors import LookupErrorMiddleware
@@ -70,17 +70,17 @@ class _TTLContextHubBackend(ContextHubBackend):
 def _make_model() -> ChatOpenAI:
     """The main-agent model, called through the LangSmith LLM Gateway.
 
-    Defaults to gpt-5.4 (compare against gpt-5.4-mini via the AGENT_MODEL env
+    Defaults to anthropic/claude-sonnet-5-5 (compare models via the AGENT_MODEL env
     var across experiments). A pre-initialized ChatOpenAI instance is passed to
     create_deep_agent so it uses chat completions. Temperature is left at the
-    model default - gpt-5.x reasoning models only accept the default.
+    model default.
     """
     # stream_usage=True so streamed responses still report token usage (otherwise
     # streaming + tool calls omit usage -> 0 tokens -> no cost in LangSmith).
     # openai_gateway_kwargs() points base_url at the gateway and authenticates with
     # LANGSMITH_GATEWAY_API_KEY, so no local OPENAI_API_KEY is needed.
     return ChatOpenAI(
-        model=os.getenv("AGENT_MODEL", "gpt-5.4"),
+        model=agent_model(),
         streaming=True,
         stream_usage=True,
         **openai_gateway_kwargs(),
@@ -169,7 +169,7 @@ def route_request(state: AdvisorState):
 
 
 def _specialist(name, tools, instruction):
-    model=ChatOpenAI(model=os.getenv('AGENT_MODEL','gpt-5.4'),streaming=False,
+    model=ChatOpenAI(model=agent_model(),streaming=False,
                      tags=['nostream'],**openai_gateway_kwargs())
     return create_agent(model=model,tools=tools,name=name,checkpointer=False,middleware=[LookupErrorMiddleware()],system_prompt=(
         'You are the '+name+' specialist in a synthetic capital-project delivery demo. '

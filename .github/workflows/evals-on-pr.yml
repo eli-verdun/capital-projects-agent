@@ -51,9 +51,10 @@ jobs:
       LANGSMITH_AGENT_ID: ${{ vars.LANGSMITH_AGENT_ID || 'capital-projects-agent' }}
       LANGSMITH_AGENT_ENVIRONMENT: ${{ vars.LANGSMITH_AGENT_ENVIRONMENT || 'staging' }}
       LANGSMITH_WORKSPACE_ID: ${{ vars.LANGSMITH_WORKSPACE_ID }}
-      AGENT_MODEL: ${{ vars.AGENT_MODEL || 'gpt-5.4' }}
-      GUARDRAIL_MODEL: ${{ vars.GUARDRAIL_MODEL || 'gpt-5.4-nano' }}
-      EVAL_JUDGE_MODEL: ${{ vars.EVAL_JUDGE_MODEL || 'gpt-5.4-mini' }}
+      AGENT_MODEL: ${{ vars.AGENT_MODEL || 'anthropic/claude-sonnet-5-5' }}
+      GUARDRAIL_MODEL: ${{ vars.GUARDRAIL_MODEL || 'anthropic/claude-haiku-5-5' }}
+      EVAL_JUDGE_MODEL: ${{ vars.EVAL_JUDGE_MODEL || 'anthropic/claude-haiku-5-5' }}
+      LANGSMITH_ENDPOINT: ${{ vars.LANGSMITH_ENDPOINT }}
 
     steps:
       - name: Checkout PR head

@@ -15,14 +15,14 @@ from langchain_core.messages.utils import convert_to_openai_messages
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
-from project_advisor.llm import openai_gateway_kwargs
+from project_advisor.llm import judge_model, openai_gateway_kwargs
 
-JUDGE_MODEL_NAME = os.getenv("EVAL_JUDGE_MODEL", "gpt-5.4-mini")
+JUDGE_MODEL_NAME = judge_model()
 
 
 def _make_judge() -> ChatOpenAI:
     # Routed through the LangSmith LLM Gateway (openai_gateway_kwargs). Temperature
-    # left at the model default (gpt-5.x reasoning models only accept the default).
+    # left at the model default.
     return ChatOpenAI(model=JUDGE_MODEL_NAME, **openai_gateway_kwargs())
 
 

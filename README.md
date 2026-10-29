@@ -57,7 +57,7 @@ establish mechanical completion. **EL-600-7712** (green hydrogen) has a filter w
 | **Agent + environments** (`LANGSMITH_AGENT_ID`, `LANGSMITH_AGENT_ENVIRONMENT`) | `scripts/setup_agent.py`, `src/project_advisor/agent_address.py` |
 | Context Hub: prompt + 3 skills + guardrail, promoted to `production`, 15 s hot reload | `context_hub_seed/`, `graph.py`, `guardrails.py` |
 | Multi-agent tracing with PII anonymization | `redaction.py`, `graph.py` |
-| LLM Gateway for every model and embedding call | `llm.py` |
+| LLM Gateway for every model call (Claude by default) | `llm.py` |
 | Thumbs feedback, review queue, negative-feedback automation | `app.py`, `scripts/setup_workspace.py` |
 | 3 online evaluators on the production environment | `scripts/setup_online_evals.py` |
 | 4 offline datasets, 9 evaluators, merge gates | `evals/` |
@@ -129,9 +129,11 @@ npm --prefix frontend run build
 uv run langgraph dev --port 2028
 ```
 
-Chat: http://localhost:2028/agent/. All models route through the LangSmith LLM Gateway:
-gpt-5.4 for the agent, gpt-5.4-nano for the classifier, gpt-5.4-mini for the judges, and
-text-embedding-3-small for retrieval.
+Chat: http://localhost:2028/agent/. All models route through the LangSmith LLM Gateway on
+Anthropic: `anthropic/claude-sonnet-5-5` for the agent and `anthropic/claude-haiku-5-5` for
+the classifier and the judges. Online evaluators and Insights also use Claude, through the
+workspace `ANTHROPIC_API_KEY` provider secret. KB retrieval is local TF-IDF, so no embedding
+provider is needed.
 
 ```sh
 uv run python scripts/verify_local.py

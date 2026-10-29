@@ -62,6 +62,7 @@ from langsmith import Client
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from project_advisor.agent_address import ENVIRONMENTS, agent_environment, environment_session  # noqa: E402
+from project_advisor.llm import judge_model, split_provider  # noqa: E402
 
 from project_advisor.endpoints import rest_api  # noqa: E402
 
@@ -234,7 +235,12 @@ def main() -> None:
     # most of the population and thin the clusters.
     p.add_argument("--last-n-hours", type=int, default=168, help="Sample traces from this window.")
     p.add_argument("--filter", default=None, help="Extra LangSmith trace filter expression.")
-    p.add_argument("--model", choices=("openai", "anthropic"), default="openai")
+    p.add_argument(
+        "--model",
+        choices=("openai", "anthropic"),
+        default=split_provider(judge_model())[0] if split_provider(judge_model())[0] in ("openai", "anthropic") else "anthropic",
+        help="Insights provider. Default: the EVAL_JUDGE_MODEL provider (anthropic).",
+    )
     p.add_argument("--cluster-model", default=None, help="Override the thinking/clustering model.")
     p.add_argument("--summary-model", default=None, help="Override the summarization model.")
     p.add_argument(

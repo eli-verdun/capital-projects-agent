@@ -125,7 +125,8 @@ DATASETS = {
 # the experiment exits 1 if any gate is violated so CI blocks the merge. Calibrated
 # so the FIXED Context-Hub state passes and regressions fail.
 GATES: dict[str, dict[str, tuple[str, float]]] = {
-    # Calibrated to gpt-5.4's OBSERVED RANGE on the golden set, not single runs:
+    # Inherited from the source demo, calibrated to gpt-5.4's OBSERVED RANGE (not yet
+    # re-calibrated for the Claude defaults), not single runs:
     # the LLM-judge metrics swing run-to-run on ~15 examples. Thresholds sit just
     # outside that range so the gpt-5.4 baseline reliably passes and only a real
     # regression trips the gate.

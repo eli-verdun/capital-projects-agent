@@ -16,15 +16,15 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
-from project_advisor.llm import openai_gateway_kwargs
+from project_advisor.llm import guardrail_model, openai_gateway_kwargs
 
 # The guardrail classifier prompt lives in the Context Hub agent repo as this file,
 # alongside AGENTS.md and the skills - so all three fixable surfaces are Context Hub
 # files (edit + re-promote :production to ship).
 GUARDRAIL_FILE = "guardrail.md"
-# Guardrail classifier model, routed through the gateway. Default gpt-5.4-nano;
-# compare against gpt-5.4-mini via the GUARDRAIL_MODEL env var across experiments.
-_GUARDRAIL_MODEL = os.getenv("GUARDRAIL_MODEL", "gpt-5.4-nano")
+# Guardrail classifier model, routed through the gateway. Default
+# anthropic/claude-haiku-5-5; compare models via the GUARDRAIL_MODEL env var.
+_GUARDRAIL_MODEL = guardrail_model()
 
 # The guardrail prompt text is NOT in this code - it lives in Context Hub as
 # guardrail.md (seeded from context_hub_seed/guardrail.md). The seed is
