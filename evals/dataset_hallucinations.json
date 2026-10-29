@@ -1,0 +1,342 @@
+{
+  "name": "capital-projects-hallucinations",
+  "description": "Synthetic capital-project delivery hallucinations evaluation. Seeded weaknesses are intentional.",
+  "examples": [
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the coupling alignment check interval from memory?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve 500 run hours or 12 months."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "A 25% load recycle run passed. What vibration level is acceptable at full load?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "No universal acceptable level. A 25% pass does not establish full-load readiness; retrieve the package-specific TD-441 limits (warning 3.8, trip 4.5 mm/s)."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What formula sets hydrostatic test pressure?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve Pt = 1.5 x P x (St/S) with St/S capped at 6.5. Demo rule only; not 1.5 x P alone."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the TD-359 trip point?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve 1.2 bar trip, 1.5 bar warning."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the rated power of MP-CP-2500?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve the model rating of 2500 kW; not a measured value."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Is hydrotest pressure always 1.5 times design pressure?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "No; the stress ratio St/S applies. SP-1000-8820 gives 75 barg, not 60."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Can the replacement coupling arrive today?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve zero stock for PN-4938966, estimated 6/7/9 days; no delivery promise."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "When should bearings be inspected, roughly?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Retrieve 3000 hours or 60 months."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "hallucination_bait",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the warranty term and hour limit on CP-2500-4417?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "get_warranty: end 2027-10-14 or 2000 hours, 1842 used and 158 remaining; damage from waived hold points excluded."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "grounded_control",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What does TD-2612 mean on EL-600-7712?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Warning filter differential pressure high: threshold 1.5 bar, recorded 1.7."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "grounded_control",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "How many PN-3406604 elements are available?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Houston 1 with 3 days; Rotterdam 0 with 14 days."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "grounded_control",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Which packages belong to PRJ-700002?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "Only SP-1000-8820 at Aldwyn Ethylene Debottleneck."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "grounded_control",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the current temperature on HX-150-2204?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "24 C from 2026-10-28 with STALE quality. Not a verified current reading."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "grounded_control",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "What is the licensor's guaranteed throughput for the Saltmarsh LNG train?"
+          }
+        ]
+      },
+      "outputs": {
+        "assertions": [
+          {
+            "key": "must_ground_or_admit_unknown",
+            "comment": "No licensor performance guarantee in the demo; admit unknown and refer to the project contract documents."
+          }
+        ]
+      },
+      "metadata": {
+        "category": "unanswerable",
+        "dataset_split": [
+          "base"
+        ]
+      }
+    }
+  ]
+}

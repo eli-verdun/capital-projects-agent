@@ -1,0 +1,12 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agent": "./src/project_advisor/graph.py:graph"
+  },
+  "http": {
+    "app": "./src/project_advisor/app.py:app"
+  },
+  "env": ".env",
+  "python_version": "3.13",
+  "image_distro": "wolfi"
+}

@@ -1,0 +1,150 @@
+name: Engine eval on PR
+
+# Runs offline experiments against every Engine-generated dataset on every
+# PR against main, so reviewers can see post-fix results in LangSmith
+# without redeploying the agent. Uses a strategy matrix so all datasets
+# run in parallel and each posts its own PR comment.
+
+on:
+  pull_request:
+    branches: [main]
+    # Re-run when the PR is pushed to or reopened; skip drafts so opening a
+    # WIP doesn't burn tokens.
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# One workflow run per PR. New commits cancel in-flight matrix jobs.
+concurrency:
+  group: engine-eval-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write   # needed to comment back on the PR
+
+jobs:
+  evaluate:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      # Don't cancel sibling jobs when one dataset fails - a missing dataset
+      # in a fresh workspace shouldn't hide the other dataset's result.
+      fail-fast: false
+      matrix:
+        # Gate on the golden suite only (5 evaluators across the core behaviors).
+        # The hallucinations / pii / guardrail Engine datasets stay runnable
+        # manually (evals/run_experiment.py) and can be re-added here later.
+        include:
+          - alias: golden
+            dataset: capital-projects-golden
+            experiment_prefix: capital-projects-agent
+
+    env:
+      # Agent + judge proxy through the LLM Gateway (auth via LANGSMITH_GATEWAY_API_KEY);
+      # LANGSMITH_API_KEY is used only for tracing.
+      LANGSMITH_GATEWAY_API_KEY: ${{ secrets.LANGSMITH_GATEWAY_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGSMITH_TRACING: "true"
+      # Agent addressing: CI runs trace to the agent's staging environment. Experiments
+      # still write to their own experiment session. Never set LANGSMITH_PROJECT here.
+      LANGSMITH_AGENT_ID: ${{ vars.LANGSMITH_AGENT_ID || 'capital-projects-agent' }}
+      LANGSMITH_AGENT_ENVIRONMENT: ${{ vars.LANGSMITH_AGENT_ENVIRONMENT || 'staging' }}
+      LANGSMITH_WORKSPACE_ID: ${{ vars.LANGSMITH_WORKSPACE_ID }}
+      AGENT_MODEL: ${{ vars.AGENT_MODEL || 'gpt-5.4' }}
+      GUARDRAIL_MODEL: ${{ vars.GUARDRAIL_MODEL || 'gpt-5.4-nano' }}
+      EVAL_JUDGE_MODEL: ${{ vars.EVAL_JUDGE_MODEL || 'gpt-5.4-mini' }}
+
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.13
+
+      - uses: socketdev/action@ba6de6cc0565af1f42295590380973573297e31f
+        with:
+          mode: firewall-free
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Run Engine experiment (${{ matrix.alias }})
+        id: experiment
+        run: |
+          set -euo pipefail
+          PR=${{ github.event.pull_request.number }}
+          SHA_SHORT=$(git rev-parse --short "${{ github.event.pull_request.head.sha }}")
+          PREFIX="${{ matrix.experiment_prefix }}-pr-${PR}-${SHA_SHORT}"
+
+          # --gate makes the step exit 1 when the dataset's thresholds are not
+          # met, failing this required check so branch protection blocks merge.
+          uv run python evals/run_experiment.py "${{ matrix.alias }}" \
+            --dataset "${{ matrix.dataset }}" \
+            --experiment-prefix "$PREFIX" \
+            --gate \
+            --metadata "pr_number=${PR}" \
+            --metadata "commit_sha=${{ github.event.pull_request.head.sha }}" \
+            --metadata "branch=${{ github.event.pull_request.head.ref }}" \
+            --metadata "ci_run_id=${{ github.run_id }}" \
+            --metadata "engine_issue=${{ matrix.alias }}" \
+            | tee experiment.log
+
+          # Extract the CI-parseable lines our script prints.
+          echo "experiment_name=$(grep '^EXPERIMENT_NAME=' experiment.log | cut -d= -f2-)" >> "$GITHUB_OUTPUT"
+          echo "experiment_url=$(grep '^EXPERIMENT_URL=' experiment.log | cut -d= -f2-)" >> "$GITHUB_OUTPUT"
+          echo "dataset_name=$(grep '^DATASET_NAME=' experiment.log | cut -d= -f2-)" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR with experiment link
+        if: success()
+        uses: actions/github-script@v7
+        env:
+          ALIAS: ${{ matrix.alias }}
+          EXPERIMENT_NAME: ${{ steps.experiment.outputs.experiment_name }}
+          EXPERIMENT_URL: ${{ steps.experiment.outputs.experiment_url }}
+          DATASET_NAME: ${{ steps.experiment.outputs.dataset_name }}
+        with:
+          script: |
+            const { ALIAS, EXPERIMENT_NAME, EXPERIMENT_URL, DATASET_NAME } = process.env;
+            const body = [
+              `### LangSmith experiment - \`${ALIAS}\``,
+              ``,
+              `**Experiment:** \`${EXPERIMENT_NAME}\``,
+              `**Dataset:** \`${DATASET_NAME}\``,
+              `**Open in LangSmith:** ${EXPERIMENT_URL}`,
+              ``,
+              `Compare against the \`main\`-branch baseline in LangSmith to see the score improvement for this issue.`,
+            ].join("\n");
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Comment on PR with failure
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          ALIAS: ${{ matrix.alias }}
+        with:
+          script: |
+            const { ALIAS } = process.env;
+            const body = [
+              `### LangSmith experiment - \`${ALIAS}\` - FAILED`,
+              ``,
+              `Check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for logs. The other dataset's job may still complete independently.`,
+            ].join("\n");
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
