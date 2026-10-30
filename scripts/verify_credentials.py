@@ -23,10 +23,11 @@ from project_advisor.retrieval import retrieve
 from project_advisor.redaction import REDACTION_RULES
 from project_advisor.context import CONTEXT_HUB_REPO
 from project_advisor.governance import APPLICATION_NAME
-from project_advisor.agent_address import address, agent_id, conflicting_destination_vars, environment_session
+from project_advisor.agent_address import address, agent_id, conflicting_destination_vars, environment_session, refuse_production
 
 
 def main():
+    refuse_production()
     for name in ('LANGSMITH_API_KEY','LANGSMITH_GATEWAY_API_KEY','LANGSMITH_WORKSPACE_ID','LANGSMITH_AGENT_ID','LANGSMITH_AGENT_ENVIRONMENT'):
         if not os.getenv(name): raise RuntimeError(f'Missing required configuration: {name}')
     assert not conflicting_destination_vars(),'Unset LANGSMITH_PROJECT/LANGCHAIN_PROJECT/LANGCHAIN_SESSION: they conflict with agent addressing'

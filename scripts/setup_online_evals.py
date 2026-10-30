@@ -8,12 +8,12 @@ Insights flags it.
 
 Mechanism: each evaluator is a LangSmith **run rule** (`POST /api/v1/runs/rules`)
 scoped to the agent environment's backing `session_id` (``LANGSMITH_AGENT_ENVIRONMENT``,
-``production`` by default; pass ``--environment`` to target another one), with an inline `structured` LLM-judge. The
+``local`` by default; pass ``--environment production`` for live traffic), with an inline `structured` LLM-judge. The
 schema property name becomes the feedback key shown in the UI. Scores are
 good=1 / bad=0 so a regression makes the metric *drop*.
 
-    uv run python -m scripts.setup_online_evals                 # 100% sampling on production
-    uv run python -m scripts.setup_online_evals --sampling-rate 0.5
+    uv run python -m scripts.setup_online_evals --environment production   # 100% sampling
+    uv run python -m scripts.setup_online_evals --environment production --sampling-rate 0.5
     uv run python -m scripts.setup_online_evals --environment staging
 
 Idempotent: existing rules with our feedback keys - and any in LEGACY_FEEDBACK_KEYS -
@@ -65,6 +65,9 @@ JUDGE_MODEL = judge_model()
 # Feedback keys this demo used to publish. Rules with these names are deleted on setup so
 # a renamed metric does not keep scoring traces under its old name forever.
 LEGACY_FEEDBACK_KEYS = {'equipment_action_safe', 'finance_action_safe', 'plan_action_safe', 'order_action_safe'}
+
+# Score only the advisor graph's root runs, not ad-hoc model, judge or credential-check roots.
+AGENT_RUN_FILTER = 'and(eq(is_root, true), eq(name, "project_delivery_advisor"))'
 
 # Online LLM-judge evaluators. good=1 / bad=0 so a regression drops the score.
 # The feedback_key is the schema property name and the UI Feedback Key column.
@@ -176,6 +179,7 @@ def _create_rule(ev: dict, project_id: str, judge: dict, sampling_rate: float) -
         "display_name": key,
         "session_id": project_id,
         "sampling_rate": sampling_rate,
+        "filter": AGENT_RUN_FILTER,
         "evaluators": [
             {
                 "structured": {
@@ -222,7 +226,7 @@ def main() -> None:
         "--environment",
         choices=ENVIRONMENTS,
         default=None,
-        help="Agent environment to score. Default: LANGSMITH_AGENT_ENVIRONMENT (production).",
+        help="Agent environment to score. Default: LANGSMITH_AGENT_ENVIRONMENT (local).",
     )
     args = parser.parse_args()
 

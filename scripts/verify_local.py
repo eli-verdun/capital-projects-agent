@@ -103,6 +103,17 @@ assert len(build_preset('engine'))==50
 from project_advisor.app import app
 assert '/health' in app.openapi()['paths']
 print('PASS: data, source timestamps, all 13 tools/error paths, redaction, 17 docs, 3 skills, 64 dataset rows and evaluator evidence.')
+import subprocess
+from project_advisor import agent_address as aa
+with patch.dict(os.environ):
+ os.environ.pop('LANGSMITH_AGENT_ENVIRONMENT',None)
+ assert aa.agent_environment()=='local'
+ for env,argv in [('local',[]),('staging',[]),('production',['--allow-production'])]:
+  os.environ['LANGSMITH_AGENT_ENVIRONMENT']=env;aa.refuse_production(argv)
+ for script in ('verify_credentials.py','verify_agent_smoke.py'):
+  proc=subprocess.run([sys.executable,str(ROOT/'scripts'/script)],env={**os.environ,'LANGSMITH_AGENT_ENVIRONMENT':'production'},capture_output=True,text=True,timeout=300)
+  assert proc.returncode==1 and '--allow-production' in proc.stderr and 'PASS' not in proc.stdout,f'{script} traced a developer check to production'
+print('PASS: local default agent environment and production opt-in for developer checks.')
 
 async def verify_graph():
  import project_advisor.graph as g

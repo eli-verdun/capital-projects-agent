@@ -79,9 +79,12 @@ Traces go to an agent and one of its four environments, not to a tracing project
 
 ```sh
 LANGSMITH_AGENT_ID=capital-projects-agent
-LANGSMITH_AGENT_ENVIRONMENT=production   # local | development | staging | production
+LANGSMITH_AGENT_ENVIRONMENT=local   # local | development | staging | production
 ```
 
+- **Local processes default to `local`.** Only the deployment sets `production`.
+  `verify_credentials.py` and `verify_agent_smoke.py` refuse `production` unless you
+  pass `--allow-production`. Online evaluators score only `project_delivery_advisor` roots.
 - **Do not set `LANGSMITH_PROJECT`.** When the agent variables and a legacy project
   variable are both set, the SDK cannot pick a destination and traces nothing.
 - **Use `langchain-core>=1.6.11` and `langsmith>=0.14.12`.** Older `LangChainTracer`
@@ -144,11 +147,11 @@ provider is needed.
 uv run python scripts/verify_local.py
 uv run python scripts/verify_credentials.py
 uv run python scripts/verify_agent_smoke.py
-uv run python -m scripts.setup_workspace
-uv run python -m scripts.setup_online_evals
+LANGSMITH_AGENT_ENVIRONMENT=production uv run python -m scripts.setup_workspace
+uv run python -m scripts.setup_online_evals --environment production
 uv run python evals/run_experiment.py guardrail
 uv run python scripts/load_generation.py --mode local --preset engine
-uv run python -m scripts.setup_insights --mode auto
+uv run python -m scripts.setup_insights --mode auto --environment production
 ```
 
 Insights needs a workspace model configuration with a provider secret. A report can take

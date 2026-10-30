@@ -4,7 +4,10 @@ The demo workspace is agent-based. Traces go to an agent and one of its four
 environments (local, development, staging, production), not to a tracing project:
 
     LANGSMITH_AGENT_ID=capital-projects-agent
-    LANGSMITH_AGENT_ENVIRONMENT=production
+    LANGSMITH_AGENT_ENVIRONMENT=local
+
+Local processes default to ``local``. Only deployment configuration sets
+``production``; developer checks refuse it without ``--allow-production``.
 
 Do NOT also set LANGSMITH_PROJECT. When the agent variables and a legacy project
 variable are both set, the SDK cannot pick a destination and traces nothing.
@@ -19,13 +22,14 @@ once with ``python -m scripts.setup_agent``.
 from __future__ import annotations
 
 import os
+import sys
 from dataclasses import dataclass
 
 import langsmith as ls
 from langsmith import Client
 
 DEFAULT_AGENT_ID = "capital-projects-agent"
-DEFAULT_ENVIRONMENT = "production"
+DEFAULT_ENVIRONMENT = "local"
 ENVIRONMENTS = ("local", "development", "staging", "production")
 
 # Legacy destination variables that conflict with agent addressing.
@@ -41,6 +45,16 @@ def agent_environment() -> str:
     if value not in ENVIRONMENTS:
         raise ValueError(f"LANGSMITH_AGENT_ENVIRONMENT must be one of {ENVIRONMENTS}, got {value!r}.")
     return value
+
+
+def refuse_production(argv: list[str] | None = None) -> None:
+    """Exit when a developer check would trace to production without ``--allow-production``."""
+    argv = sys.argv[1:] if argv is None else argv
+    if agent_environment() == "production" and "--allow-production" not in argv:
+        sys.exit(
+            "Refusing to trace a developer check to the production agent environment. "
+            "Set LANGSMITH_AGENT_ENVIRONMENT to local, development or staging, or pass --allow-production."
+        )
 
 
 def address(environment: str | None = None) -> ls.AgentAddress:

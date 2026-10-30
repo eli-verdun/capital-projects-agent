@@ -7,6 +7,7 @@ load_dotenv(ROOT/'.env',override=False)
 from langchain_core.messages import AIMessage
 from langchain_core.tracers.langchain import wait_for_all_tracers
 from langchain_core.callbacks import AsyncCallbackHandler
+from project_advisor.agent_address import refuse_production
 from project_advisor.graph import _build_graph, _redacting_callbacks
 from langgraph.checkpoint.memory import InMemorySaver
 graph=_build_graph(checkpointer=InMemorySaver()).with_config({"callbacks":_redacting_callbacks()})
@@ -23,6 +24,7 @@ class Timings(AsyncCallbackHandler):
   if run_id in self.names:self.finished[run_id]=asyncio.get_running_loop().time()
 
 async def main():
+ refuse_production()
  timing=Timings()
  thread_id=str(uuid.uuid4())
  result=await graph.ainvoke({'messages':[{'role':'user','content':'CP-2500-4417 passed a 25% recycle run but tripped during the 100% load performance test. Compare quality records, the current snapshot and engineering guidance; explain what the evidence supports.'}]},config={'callbacks':[timing],'configurable':{'thread_id':thread_id},'tags':['github-smoke']})

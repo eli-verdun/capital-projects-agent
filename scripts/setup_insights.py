@@ -1,8 +1,8 @@
 """Generate a LangSmith Insights report over one agent environment.
 
 In an agent-based workspace an Insights report runs against ONE environment of the
-agent (``LANGSMITH_AGENT_ENVIRONMENT``, ``production`` by default), so local and
-CI runs do not dilute production traffic. Pass ``--environment`` to pick another.
+agent (``LANGSMITH_AGENT_ENVIRONMENT``, ``local`` by default), so local and
+CI runs do not dilute production traffic. Pass ``--environment production`` for live traffic.
 
 Insights is NOT automatic. It runs as a background **job** over a sample of traces
 and can take up to 30 minutes, so it has to be generated BEFORE a demo - an
@@ -258,7 +258,7 @@ def main() -> None:
         "--environment",
         choices=ENVIRONMENTS,
         default=None,
-        help="Agent environment to analyze. Default: LANGSMITH_AGENT_ENVIRONMENT (production).",
+        help="Agent environment to analyze. Default: LANGSMITH_AGENT_ENVIRONMENT (local).",
     )
     p.add_argument("--list", action="store_true", help="List existing reports and exit.")
     p.add_argument("--poll", action="store_true", help="Wait for the report to finish.")
