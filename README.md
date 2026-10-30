@@ -130,9 +130,10 @@ uv run langgraph dev --port 2028
 ```
 
 Chat: http://localhost:2028/agent/. All models route through the LangSmith LLM Gateway on
-Anthropic: `anthropic/claude-sonnet-5-5` for the agent and `anthropic/claude-haiku-5-5` for
-the classifier and the judges. Online evaluators and Insights also use Claude, through the
-workspace `ANTHROPIC_API_KEY` provider secret. KB retrieval is local TF-IDF, so no embedding
+Claude Haiku: the saved model configuration `custom/claude-haiku-5-5` serves the agent, the
+classifier and the judges. Online evaluators reference the same preset by
+`playground_settings_id`, and Insights uses the Anthropic provider. Each request sends
+`max_tokens` (`LLM_MAX_TOKENS`, default 4096) because the preset's own 1024 cuts answers short. KB retrieval is local TF-IDF, so no embedding
 provider is needed.
 
 ```sh
