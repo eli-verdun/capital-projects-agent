@@ -1,0 +1,24 @@
+README.md
+  s_490ffada1e6645::t_3d42d451c977ab 114-121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bf75879f1ffcd4c8079db24799591193fe9ad708",
+  "prompts": {},
+  "humans": {
+    "h_581153be4e874b": {
+      "author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  },
+  "sessions": {
+    "s_490ffada1e6645": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab485ef0-f2a6-4f78-93a1-b4638ab340be",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  }
+}
