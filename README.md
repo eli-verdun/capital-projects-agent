@@ -111,10 +111,14 @@ These are editable demo surfaces, not real engineering guidance. The tools are r
 and mask sensitive fields. The classifier fails closed on runtime errors. To update a
 prompt, edit it in Context Hub and promote `production`; it goes live in about 15 seconds.
 
-**Expected seeded state.** The golden gate targets the fixed prompts, so it fails until
-you fix the three surfaces. Guardrail accuracy is near 0.50 (measured 0.55 on the first
-run). The thresholds come from the source demo. They are not calibrated for this domain
-or graph.
+**Expected seeded state.** The guardrail gate fails until you fix `guardrail.md`:
+accuracy is near 0.50 (measured 0.55 on both gpt-5.4-nano and Claude Haiku). The golden
+gate depends on the model. With gpt-5.4 it failed on answer correctness (0.56). With
+`custom/claude-haiku-5-5` it passed (answer correctness 0.75, hallucination 0.50 at
+the limit), because the golden set asks mostly tool-evidence questions. To show the
+planted bugs, use the hallucinations dataset, the triage-method prompts and the guardrail
+dataset. The thresholds come from the source demo. They are not calibrated for this
+domain, graph or model.
 
 ## Setup and run
 
