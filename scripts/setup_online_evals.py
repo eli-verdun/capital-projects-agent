@@ -33,9 +33,17 @@ The offline `pii_leak_rate` evaluator needs none of this - experiments run the u
 graph, so it regex-matches real values.
 
 Requires `LANGSMITH_API_KEY` (and `LANGSMITH_WORKSPACE_ID` when the key's default
-workspace differs). The judge runs server-side in LangSmith using EVAL_JUDGE_MODEL;
-the serialized model carries only a secret reference (ANTHROPIC_API_KEY for an
-``anthropic/`` judge), which LangSmith resolves from the workspace secrets.
+workspace differs). The judge runs server-side in LangSmith using EVAL_JUDGE_MODEL,
+which is baked into each rule: re-run this script after changing EVAL_JUDGE_MODEL.
+``custom/`` presets are the default; the rule references the saved configuration and its
+provider credential, and setup preflights it with one gateway call (needs
+``LANGSMITH_GATEWAY_API_KEY``). An ``anthropic/`` or ``openai/`` judge carries only a
+secret reference (ANTHROPIC_API_KEY / OPENAI_API_KEY) that LangSmith resolves from the
+workspace secrets, so setup checks that secret exists. Either preflight failing exits
+non-zero before any rule is deleted or created.
+
+Rules filter to the agent's root runs (``project_delivery_advisor``), so developer smoke
+calls traced to the same environment are not scored.
 """
 
 from __future__ import annotations
@@ -58,9 +66,15 @@ from project_advisor.agent_address import ENVIRONMENTS, agent_environment, envir
 from project_advisor.endpoints import rest_api  # noqa: E402
 
 _API = rest_api()
-from project_advisor.llm import judge_model, split_provider  # noqa: E402
+from project_advisor.llm import judge_model, openai_gateway_kwargs, split_provider  # noqa: E402
 
 JUDGE_MODEL = judge_model()
+
+# Root run name of the compiled agent graph; rules score only these runs.
+AGENT_ROOT_FILTER = 'eq(name, "project_delivery_advisor")'
+
+# Workspace secret a server-side provider judge resolves at scoring time.
+PROVIDER_SECRETS = {"anthropic": "ANTHROPIC_API_KEY", "openai": "OPENAI_API_KEY"}
 
 # Feedback keys this demo used to publish. Rules with these names are deleted on setup so
 # a renamed metric does not keep scoring traces under its old name forever.
@@ -122,6 +136,35 @@ def _judge_fields(model: str) -> dict:
     return fields
 
 
+def _workspace_secret_keys() -> set[str]:
+    """Names of the secrets configured in the current workspace."""
+    r = requests.get(f"{_API}/workspaces/current/secrets", headers=_headers())
+    if r.status_code != 200:
+        raise SystemExit(f"Error: could not list workspace secrets: {r.status_code} {r.text[:200]}")
+    return {row.get("key") for row in r.json()}
+
+
+def _preflight_judge(model: str) -> None:
+    """Exit non-zero unless the server-side judge for ``model`` can score."""
+    provider, _ = split_provider(model)
+    if provider == "custom":
+        try:
+            ChatOpenAI(model=model, timeout=60, max_retries=1, **openai_gateway_kwargs()).invoke("Reply with OK only.")
+        except Exception as exc:
+            raise SystemExit(
+                f"Error: judge preflight for {model} failed ({type(exc).__name__}: {str(exc)[:200]}). "
+                "Check LANGSMITH_GATEWAY_API_KEY and the saved model configuration's provider secret; "
+                "no rules were changed."
+            )
+        return
+    secret = PROVIDER_SECRETS[provider]
+    if secret not in _workspace_secret_keys():
+        raise SystemExit(
+            f"Error: judge {model} needs the {secret} workspace secret (Settings > Secrets), which is not set. "
+            "Add it or set EVAL_JUDGE_MODEL to a custom/ preset; no rules were changed."
+        )
+
+
 def _headers(json_body: bool = False) -> dict:
     """Headers for raw LangSmith REST calls.
 
@@ -176,6 +219,7 @@ def _create_rule(ev: dict, project_id: str, judge: dict, sampling_rate: float) -
         "display_name": key,
         "session_id": project_id,
         "sampling_rate": sampling_rate,
+        "filter": AGENT_ROOT_FILTER,
         "evaluators": [
             {
                 "structured": {
@@ -237,6 +281,7 @@ def main() -> None:
     env = _environment(client, args.environment or agent_environment())
     project_id = env.session_id
     judge = _judge_fields(JUDGE_MODEL)
+    _preflight_judge(JUDGE_MODEL)
 
     print(f"Setting up online evaluators on agent '{env.agent_id}' / {env.environment} (session {project_id}, sampling {args.sampling_rate:.0%})...")
     _delete_existing(project_id)

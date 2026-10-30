@@ -142,6 +142,7 @@ provider is needed.
 
 ```sh
 uv run python scripts/verify_local.py
+uv run python -m unittest discover tests
 uv run python scripts/verify_credentials.py
 uv run python scripts/verify_agent_smoke.py
 uv run python -m scripts.setup_workspace
