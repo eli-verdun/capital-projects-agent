@@ -33,6 +33,7 @@ from langsmith import Client
 load_dotenv(override=False)
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / "src"))
 
 
 @dataclass(frozen=True)
@@ -115,6 +116,10 @@ def restore_dataset(path: Path, reset: bool) -> None:
 
     ds = client.create_dataset(dataset_name=name, description=description)
     print(f"Created dataset {ds.name} ({ds.id})")
+    # A recreated dataset has a new id, so re-associate it with the agent every time.
+    from project_advisor.agent_tags import associate_with_agent
+
+    print(f"  Agent association: {associate_with_agent('dataset', str(ds.id))}")
 
     if not examples:
         print("Snapshot has no examples; dataset created empty.")

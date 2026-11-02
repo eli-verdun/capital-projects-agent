@@ -65,7 +65,7 @@ establish mechanical completion. **EL-600-7712** (green hydrogen) has a filter w
 | Load generation (any environment) | `scripts/load_generation.py` |
 | Eval-gated PR workflow + live credential workflow | `.github/workflows/` |
 
-Agent, Context Hub repository and Application tag: **capital-projects-agent**. Review
+Agent, Context Hub repository and `Agent` tag value: **capital-projects-agent**. Review
 queue: **Meridian Project Delivery Advisor: Negative Feedback Review**. There are 13
 read-only tools, 17 KB documents and 3 skills. Datasets: capital-projects-golden (16),
 hallucinations (14), pii (12), guardrail (22). Offline judges read specialist and
@@ -92,7 +92,12 @@ LANGSMITH_AGENT_ENVIRONMENT=production   # local | development | staging | produ
 - Run rules, Insights and the feedback automation still take a project id. The scripts
   read the environment's `tracer_session_id` from the agent record.
 - Experiments still write to their own experiment session.
-- Attach the four datasets to the agent once in the UI. There is no public API for this yet.
+- **Associate resources with the agent through the `Agent` tag, not `Application`.** There is
+  no per-resource attach endpoint. Registering the agent creates the system tag key `Agent`
+  with a value equal to the agent id. `scripts/setup_workspace.py` tags the datasets, the
+  review queue and the Context Hub repo with it (`POST /workspaces/current/taggings`), and
+  removes legacy `Application` taggings. Experiments follow their dataset. `dataset_snapshot.py
+  restore` re-associates each recreated dataset, because a new dataset has a new id.
 
 **Regions.** For an APAC or EU workspace, set `LANGSMITH_ENDPOINT` (for example
 `https://apac.api.smith.langchain.com`). The REST calls, experiment links and LLM Gateway

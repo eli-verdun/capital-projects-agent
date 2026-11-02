@@ -19,6 +19,7 @@ The domain changes, and tracing moves from a tracing project to agent addressing
 | Forbidden mutation | setpoints, interlocks, batch release | test acceptance, hold-point waivers, TQ close-out, change orders, certificates, permits, trip settings, equipment start/stop |
 | Specialists | historian / realtime / knowledge | quality records / project controls / engineering |
 | Tracing destination | LANGSMITH_PROJECT | LANGSMITH_AGENT_ID + LANGSMITH_AGENT_ENVIRONMENT |
+| Resource grouping | `Application` tag | `Agent` tag (value = agent id) |
 
 Sectors covered: LNG (CP-2500-4417), chemicals (SP-1000-8820), mining (PP-1250-3390),
 green hydrogen (EL-600-7712) and gas processing (HX-150-2204, stale snapshot).

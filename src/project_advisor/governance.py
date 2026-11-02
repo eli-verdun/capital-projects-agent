@@ -6,17 +6,18 @@ Kept in one place so the app (`app.py`), the workspace provisioner
 
 from __future__ import annotations
 
-# LangSmith "Application" grouping: every workspace resource (project, datasets,
-# review queue) is tagged with the reserved `Application` tag key and this value
-# so they group under one application in the UI.
-APPLICATION_TAG_KEY = "Application"
-APPLICATION_NAME = "capital-projects-agent"
+# Agent association. In an agent-based workspace, registering the agent creates the
+# system tag key `Agent` with a value equal to the agent id; tagging a dataset, queue or
+# Context Hub repo with that value associates it with the agent (scripts/setup_workspace.py).
+# `Application` is the project-based-workspace equivalent and is removed as legacy.
+AGENT_TAG_KEY = "Agent"
+LEGACY_APPLICATION_TAG_KEY = "Application"
 
 # Annotation queue that thumbs-down (user_feedback = 0) traces are auto-routed to.
-# NOTE: keep this name stable. The live queue is already tagged into the
-# Application and is the target of the "Negative Feedback" run rule; renaming it
+# NOTE: keep this name stable. The live queue is already associated with the
+# agent and is the target of the "Negative Feedback" run rule; renaming it
 # makes setup_workspace create a SECOND queue while the rule keeps routing to the
-# old one, so the application would show two queues and feedback would land in the
+# old one, so the agent would show two queues and feedback would land in the
 # untagged one.
 REVIEW_QUEUE_NAME = "Meridian Project Delivery Advisor: Negative Feedback Review"
 REVIEW_QUEUE_DESCRIPTION = (
