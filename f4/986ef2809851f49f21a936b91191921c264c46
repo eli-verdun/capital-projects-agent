@@ -1,0 +1,37 @@
+evals/dataset_snapshot.py
+  s_490ffada1e6645::t_5d22a4db77fe7d 36,119-122
+scripts/verify_credentials.py
+  s_490ffada1e6645::t_74b90c08dc1180 32
+src/project_advisor/governance.py
+  s_490ffada1e6645::t_74b90c08dc1180 9-14,17-18,20
+src/project_advisor/agent_tags.py
+  s_490ffada1e6645::t_ea79c5e62065b4 1-74
+scripts/setup_workspace.py
+  s_490ffada1e6645::t_5d22a4db77fe7d 59,83,127-129,137,210,212
+  s_490ffada1e6645::t_82689d2a67b034 1,7-9,13-32,35-36,39,41-42,47,60,62,64,67,124,126,132-133,135-136,138-151,153-157,165,192-198,209,217-218,221-229,231-238,241-245,251
+DOMAIN_MAP.md
+  s_490ffada1e6645::t_4f98fd7accce89 22
+README.md
+  s_490ffada1e6645::t_f2a5177c1de635 68,95-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f4986ef2809851f49f21a936b91191921c264c46",
+  "prompts": {},
+  "humans": {
+    "h_581153be4e874b": {
+      "author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  },
+  "sessions": {
+    "s_490ffada1e6645": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab485ef0-f2a6-4f78-93a1-b4638ab340be",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Eli Verdun <eli.verdun@langchain.dev>"
+    }
+  }
+}
